@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | PaperSupply</title>
+    <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">PaperSupply</div>
+        <div class="user-info">
+            <img src="https://via.placeholder.com/40" alt="User">
+            <span>Customer Name</span>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="catalogue.html">Catalogue</a></li>
+            <li><a href="profile.html">My Profile</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li class="active"><a href="settings.html">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1 class="dashboard-title">Settings</h1>
+
+        <div class="settings-container">
+            <!-- Theme Settings -->
+            <div class="settings-section">
+                <h2>Appearance</h2>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Theme Mode</h3>
+                            <p>Choose between light and dark mode for your interface</p>
+                        </div>
+                        <div class="setting-control">
+                            <div class="theme-switch">
+                                <input type="checkbox" id="themeToggle" class="theme-toggle">
+                                <label for="themeToggle" class="theme-label">
+                                    <span class="theme-icon">🌙</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Accent Color</h3>
+                            <p>Customize the primary color of your interface</p>
+                        </div>
+                        <div class="setting-control">
+                            <div class="color-picker">
+                                <input type="color" id="accentColor" value="#0056b3">
+                                <button class="btn btn-secondary" id="resetAccentColor">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-section">
+                <h2>Notifications</h2>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Email Notifications</h3>
+                            <p>Receive updates about your orders and account via email</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Order Updates</h3>
+                            <p>Get notified when your order status changes</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="orderUpdates" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Promotional Emails</h3>
+                            <p>Receive information about special offers and promotions</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="promotionalEmails">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="settings-section">
+                <h2>Privacy & Security</h2>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Two-Factor Authentication</h3>
+                            <p>Add an extra layer of security to your account</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="twoFactorAuth">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Activity Log</h3>
+                            <p>View and manage your account activity history</p>
+                        </div>
+                        <div class="setting-control">
+                            <button class="btn btn-secondary" id="viewActivityLog">View Log</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Settings -->
+            <div class="settings-section">
+                <h2>Language & Region</h2>
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Interface Language</h3>
+                            <p>Select your preferred language for the interface</p>
+                        </div>
+                        <div class="setting-control">
+                            <select id="languageSelect" class="form-control">
+                                <option value="en">English</option>
+                                <option value="af">Afrikaans</option>
+                                <option value="zu">Zulu</option>
+                                <option value="xh">Xhosa</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Currency</h3>
+                            <p>Select your preferred currency for prices</p>
+                        </div>
+                        <div class="setting-control">
+                            <select id="currencySelect" class="form-control">
+                                <option value="ZAR">South African Rand (R)</option>
+                                <option value="USD">US Dollar ($)</option>
+                                <option value="EUR">Euro (€)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="settings-actions">
+                <button class="btn btn-primary" id="saveSettings">Save Changes</button>
+                <button class="btn btn-secondary" id="resetSettings">Reset to Default</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Log Modal -->
+    <div id="activityLogModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Activity Log</h2>
+            <div class="activity-log-container">
+                <div class="activity-filters">
+                    <select id="activityTypeFilter" class="form-control">
+                        <option value="all">All Activities</option>
+                        <option value="login">Logins</option>
+                        <option value="order">Orders</option>
+                        <option value="profile">Profile Changes</option>
+                    </select>
+                    <input type="date" id="activityDateFilter" class="form-control">
+                </div>
+                <div class="activity-list" id="activityList">
+                    <!-- Activity items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="theme.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html> 

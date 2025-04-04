@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalogue - BCS AI Solutions</title> <!-- Add this after the dashboard-title -->
+  <div id="breadcrumbsContainer"></div>
+  <link rel="stylesheet" href="catalogue.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">PaperSupply</div>
+    <div class="user-info">
+      <div class="cart-indicator" id="cartIndicator">
+        <i class="cart-icon">🛒</i>
+        <span id="cartCount">0</span>
+      </div>
+      <img src="https://via.placeholder.com/40" alt="User" />
+      <span>BCS AI Solutions</span>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li class="active"><a href="catalogue.html">Product Catalog</a></li>
+      <li><a href="profile.html">My Profile</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 class="dashboard-title">Product Catalogue</h1>
+    
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <button id="searchBtn" class="btn btn-primary">Search</button>
+      </div>
+      <div class="filter-controls">
+        <div class="filter-group">
+          <label for="categoryFilter">Category:</label>
+          <select id="categoryFilter" class="form-control">
+            <option value="">All Categories</option>
+            <option value="toilet">Toilet Paper</option>
+            <option value="paper-towels">Paper Towels</option>
+            <option value="napkins">Napkins</option>
+            <option value="tissues">Tissues</option>
+            <option value="printer">Printer Paper</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="sortBy">Sort By:</label>
+          <select id="sortBy" class="form-control">
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Product Catalogue -->
+    <div id="productCatalogue" class="product-grid">
+      <!-- Products will be loaded here via JavaScript -->
+      <div class="loading-message">Loading products...</div>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+      <button id="prevPage" class="btn btn-secondary" disabled>Previous</button>
+      <span id="currentPage">Page 1 of 1</span>
+      <button id="nextPage" class="btn btn-secondary" disabled>Next</button>
+    </div>
+    
+    <!-- Product Detail Modal -->
+    <div id="productDetailModal" class="modal">
+      <div class="modal-content">
+        <span id="closeProductDetail" class="close-btn">&times;</span>
+        <div class="product-detail-container">
+          <div class="product-detail-image">
+            <img id="productImage" src="" alt="Product">
+          </div>
+          <div class="product-detail-info">
+            <h2 id="productTitle" data-id="">Product Title</h2>
+            <div class="product-detail-price" id="productPrice">$0.00</div>
+            
+            <!-- Product Detail Tabs -->
+            <div class="tabs">
+              <div class="tab active" data-tab="specifications">Specifications</div>
+              <div class="tab" data-tab="details">Details</div>
+              <div class="tab" data-tab="shipping">Shipping</div>
+            </div>
+            
+            <!-- Tab Content -->
+            <div id="specificationsTab" class="tab-content active">
+              <p id="productDescription">Product description will appear here.</p>
+              <div class="spec-item">
+                <span class="spec-label">Units Per Box:</span>
+                <span id="productUnits" class="spec-value">0</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Material:</span>
+                <span id="productMaterial" class="spec-value">-</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Dimensions:</span>
+                <span id="productDimensions" class="spec-value">-</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Weight:</span>
+                <span id="productWeight" class="spec-value">-</span>
+              </div>
+            </div>
+            
+            <div id="detailsTab" class="tab-content">
+              <div class="spec-item">
+                <span class="spec-label">Material Details:</span>
+                <span id="productMaterialDetails" class="spec-value">-</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Eco-Friendly:</span>
+                <span id="productEcoFriendly" class="spec-value">-</span>
+              </div>
+            </div>
+            
+            <div id="shippingTab" class="tab-content">
+              <p>Standard shipping: 3-5 business days</p>
+              <p>Express shipping: 1-2 business days (additional fee)</p>
+              <p>Free shipping on orders over $250</p>
+            </div>
+            
+            <!-- Add to Cart Section -->
+            <div class="add-to-cart-section">
+              <div class="quantity-selector">
+                <span>Quantity:</span>
+                <button id="decreaseQuantity" class="quantity-btn">-</button>
+                <input type="number" id="productQuantity" class="quantity-input" value="1" min="1">
+                <button id="increaseQuantity" class="quantity-btn">+</button>
+              </div>
+              <button id="addToCartBtn" class="btn btn-primary">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="modal">
+      <div class="modal-content quick-view-content">
+        <span id="closeQuickView" class="close-btn">&times;</span>
+        <div class="quick-view-container">
+          <div class="quick-view-image">
+            <img id="quickViewImage" src="" alt="Product">
+          </div>
+          <div class="quick-view-info">
+            <h3 id="quickViewTitle" data-id="">Product Title</h3>
+            <p id="quickViewDescription">Product description will appear here.</p>
+            <div class="quick-view-price">
+              <span id="quickViewPrice">$0.00</span> per <span id="quickViewUnit">unit</span>
+            </div>
+            <div class="quick-view-actions">
+              <button id="quickViewAddToCart" class="btn btn-primary">Add to Cart</button>
+              <button id="viewDetailsBtn" class="btn btn-secondary">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Success Notification -->
+    <div id="successNotification" class="notification">
+      <span id="notificationMessage">Item added to cart</span>
+      <span id="closeNotification" class="close-notification">&times;</span>
+    </div>
+
+    <!-- New Order Modal -->
+    <div id="newOrderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeNewOrder">&times;</span>
+            <h2>Place New Order</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="products">Products</div>
+                <div class="tab" data-tab="cart">Cart <span id="modalCartCount">(0)</span></div>
+                <div class="tab" data-tab="checkout">Checkout</div>
+            </div>
+
+            <!-- Products Tab -->
+            <div class="tab-content active" id="productsTab">
+                <div class="product-grid" id="modalProductCatalog">
+                    <!-- Products will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Cart Tab -->
+            <div class="tab-content" id="cartTab">
+                <div id="cartItems">
+                    <!-- Cart items will be loaded dynamically -->
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">R0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Estimated Shipping:</span>
+                        <span id="cartShipping">R0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Estimated Tax:</span>
+                        <span id="cartTax">R0.00</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Estimated Total:</span>
+                        <span id="cartTotal">R0.00</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="continueShoppingBtn">Continue Shopping</button>
+                    <button class="btn btn-primary" id="proceedCheckoutBtn">Proceed to Checkout</button>
+                </div>
+            </div>
+
+            <!-- Checkout Tab -->
+            <div class="tab-content" id="checkoutTab">
+                <form id="checkoutForm">
+                    <h3>Shipping Information</h3>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" id="city" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="postal">Postal/Zip Code:</label>
+                        <input type="text" id="postal" class="form-control" required />
+                    </div>
+
+                    <h3>Payment Information</h3>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method:</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="creditCard">Credit Card</option>
+                            <option value="purchaseOrder">Purchase Order</option>
+                            <option value="netBanking">Net Banking</option>
+                        </select>
+                    </div>
+
+                    <div id="creditCardFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number:</label>
+                            <input type="text" id="cardNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="cardExpiry">Expiration Date:</label>
+                            <input type="text" id="cardExpiry" class="form-control" placeholder="MM/YY" />
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCvv">CVV:</label>
+                            <input type="text" id="cardCvv" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div id="poFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="poNumber">Purchase Order Number:</label>
+                            <input type="text" id="poNumber" class="form-control" />
+                        </div>
+                    </div>
+
+                    <h3>Order Summary</h3>
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="checkoutSubtotal">R0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span id="checkoutShipping">R0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span id="checkoutTax">R0.00</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>Total:</span>
+                            <span id="checkoutTotal">R0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="backToCartBtn">Back to Cart</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeSuccessModal">&times;</span>
+            <h2>Order Placed Successfully!</h2>
+            <p>Your order has been placed successfully. You can track your order status from the "My Orders" section.</p>
+            <p>Order ID: <span id="newOrderId"></span></p>
+            <div class="form-actions">
+                <button class="btn btn-primary" id="viewOrdersBtn">View My Orders</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-header">
+        <h3 class="cart-modal-title">Shopping Cart</h3>
+        <button class="close-btn" id="closeCartModal">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <!-- Cart items will be loaded dynamically -->
+      </div>
+      <div class="cart-summary">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cartModalTotal">R0.00</span>
+        </div>
+        <div class="cart-actions">
+          <button class="btn btn-secondary" id="continueShoppingBtn">Continue Shopping</button>
+          <button class="btn btn-primary" id="cartModalCheckoutBtn" type="button">Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cartNotification">
+      Item added to cart successfully!
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script type="module" src="catalogue.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supplier Settings | Paper Products</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+
+<body>
+  <header>
+    <div class="logo">PaperSupply</div>
+    <div class="user-info">
+      <img src="https://via.placeholder.com/40" alt="User" />
+      <span id="companyNameHeader">BCS AI Solutions</span>
+    </div>
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="supplier_template.html">Dashboard</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="customers_page.html">Customers</a></li>
+      <li><a href="stats_page.html">Statistics</a></li>
+      <li><a href="queries_page.html">Queries</a></li>
+      <li class="active"><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h1 class="dashboard-title">Settings</h1>
+
+    <div class="settings-container">
+      <!-- Appearance Settings -->
+      <div class="settings-section">
+        <h2>Appearance</h2>
+        <div class="settings-card">
+          <div class="setting-item">
+            <label for="themeToggle">Theme Mode:</label>
+            <div class="toggle-switch">
+              <input type="checkbox" id="themeToggle" />
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+          <div class="setting-item">
+            <label for="accentColor">Accent Color:</label>
+            <div class="color-picker-container">
+              <input type="color" id="accentColor" value="#0056b3" />
+              <button class="btn btn-secondary" id="resetAccentColor">Reset to Default</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="settings-section">
+        <h2>Notifications</h2>
+        <div class="settings-card">
+          <div class="setting-item">
+            <label>Email Notifications:</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="emailNotifications" />
+                <label for="emailNotifications">Enable Email Notifications</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="orderUpdates" />
+                <label for="orderUpdates">New Order Updates</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="customerQueries" />
+                <label for="customerQueries">Customer Queries</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Settings -->
+      <div class="settings-section">
+        <h2>Security</h2>
+        <div class="settings-card">
+          <div class="setting-item">
+            <label>Two-Factor Authentication:</label>
+            <div class="toggle-switch">
+              <input type="checkbox" id="twoFactorAuth" />
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+          <div class="setting-item">
+            <label>Session Timeout:</label>
+            <select id="sessionTimeout" class="form-control">
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="120">2 hours</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language & Region -->
+      <div class="settings-section">
+        <h2>Language & Region</h2>
+        <div class="settings-card">
+          <div class="setting-item">
+            <label for="languageSelect">Language:</label>
+            <select id="languageSelect" class="form-control">
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="currencySelect">Currency:</label>
+            <select id="currencySelect" class="form-control">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="ZAR">ZAR (R)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="settings-section">
+        <h2>Activity Log</h2>
+        <div class="settings-card">
+          <div class="activity-log-controls">
+            <div class="filter-group">
+              <label for="activityTypeFilter">Activity Type:</label>
+              <select id="activityTypeFilter" class="form-control">
+                <option value="all">All Activities</option>
+                <option value="login">Login Attempts</option>
+                <option value="settings">Settings Changes</option>
+                <option value="security">Security Events</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="activityDateFilter">Date Range:</label>
+              <select id="activityDateFilter" class="form-control">
+                <option value="today">Today</option>
+                <option value="week">Last 7 Days</option>
+                <option value="month">Last 30 Days</option>
+                <option value="year">Last Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="activity-log-list">
+            <div id="activityList">
+              <!-- Activity log entries will be loaded dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save & Reset -->
+      <div class="settings-actions">
+        <button class="btn btn-secondary" id="resetSettings">Reset to Defaults</button>
+        <button class="btn btn-primary" id="saveSettings">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeSuccessModal">&times;</span>
+      <h2>Success!</h2>
+      <p>Your settings have been saved successfully.</p>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="confirmSuccessBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeErrorModal">&times;</span>
+      <h2>Error</h2>
+      <p>There was an error saving your settings. Please try again.</p>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="confirmErrorBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="theme.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html> 

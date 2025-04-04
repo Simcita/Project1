@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Support | PaperSupply</title>
+  <link rel="stylesheet" href="support.css" />
+  <style>
+    .alert {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">PaperSupply</div>
+    <div class="user-info">
+      <img src="https://via.placeholder.com/40" alt="User" />
+      <span>BCS AI Solutions</span>
+    </div>
+  </header>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="catalogue.html">Product Catalog</a></li>
+      <li><a href="profile.html">My Profile</a></li>
+      <li class="active"><a href="support.html">Support</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h1 class="support-title">Customer Support</h1>
+
+    <div class="support-container">
+      <div class="support-options">
+        <div class="support-card">
+          <div class="support-card-header">
+            <h2>Contact Support</h2>
+          </div>
+          <div class="support-card-body">
+            <p>Need help with your order or have questions about our products? Our support team is here to assist you.</p>
+            <div class="contact-options">
+              <div class="contact-option">
+                <span class="contact-icon">📞</span>
+                <div class="contact-details">
+                  <h3>Phone Support</h3>
+                  <p>Mon-Fri, 9AM-5PM</p>
+                  <p class="contact-value">1-800-PAPER-SUPPLY</p>
+                </div>
+              </div>
+              <div class="contact-option">
+                <span class="contact-icon">✉️</span>
+                <div class="contact-details">
+                  <h3>Email Support</h3>
+                  <p>24/7 Response</p>
+                  <p class="contact-value">support@papersupply.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="support-card faq-card">
+          <div class="support-card-header">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+          <div class="support-card-body">
+            <div class="faq-item">
+              <div class="faq-question">
+                <h3>How do I track my order?</h3>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>You can track your order by going to the "My Orders" section in your dashboard and clicking on "View Details" for the specific order.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                <h3>What payment methods do you accept?</h3>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>We accept credit cards, purchase orders, and net banking for all business accounts.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                <h3>How long does shipping take?</h3>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>Standard shipping typically takes 3-5 business days. Express shipping options are available at checkout for 1-2 business day delivery.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-question">
+                <h3>What is your return policy?</h3>
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-answer">
+                <p>We offer a 30-day return policy for unopened products. Please contact our support team to initiate a return.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="support-form-container">
+        <div class="support-card">
+          <div class="support-card-header">
+            <h2>Submit a Support Request</h2>
+          </div>
+          <div class="support-card-body">
+            <form id="supportForm">
+              <div class="form-group">
+                <label for="requestType">Request Type:</label>
+                <select id="requestType" class="form-control" required>
+                  <option value="">Select Request Type</option>
+                  <option value="Order Issue">Order Issue</option>
+                  <option value="Product Question">Product Question</option>
+                  <option value="Billing Question">Billing Question</option>
+                  <option value="Technical Issue">Technical Issue</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" class="form-control" required placeholder="Brief description of your issue">
+              </div>
+              <div class="form-group">
+                <label for="orderNumber">Order Number (if applicable):</label>
+                <input type="text" id="orderNumber" class="form-control" placeholder="e.g. ORD-123456789">
+              </div>
+              <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" class="form-control" rows="6" required placeholder="Please provide details about your issue or question"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" class="form-control" required>
+                  <option value="Low">Low</option>
+                  <option value="Medium" selected>Medium</option>
+                  <option value="High">High</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contactMethod">Preferred Contact Method:</label>
+                <select id="contactMethod" class="form-control" required>
+                  <option value="Email">Email</option>
+                  <option value="Phone">Phone</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contactInfo">Contact Information:</label>
+                <input type="text" id="contactInfo" class="form-control" required placeholder="Email address or phone number">
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="supportTickets" class="support-tickets">
+      <h2>Your Support Tickets</h2>
+      <div class="ticket-list">
+        <div class="tickets-header">
+          <div class="ticket-id">Ticket ID</div>
+          <div class="ticket-subject">Subject</div>
+          <div class="ticket-date">Date</div>
+          <div class="ticket-status">Status</div>
+          <div class="ticket-actions">Actions</div>
+        </div>
+        <div id="ticketsList" class="tickets-body">
+          <!-- Tickets will be loaded dynamically -->
+          <div class="loading-indicator">Loading your tickets...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Details Modal -->
+  <div id="ticketDetailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeTicketDetails">&times;</span>
+      <h2>Support Ticket Details</h2>
+      <div id="ticketDetails">
+        <div class="ticket-detail-header">
+          <div class="ticket-id-detail">Ticket ID: <span id="ticketIdDetail"></span></div>
+          <div class="ticket-status-detail">Status: <span id="ticketStatusDetail"></span></div>
+        </div>
+        <div class="ticket-detail-body">
+          <div class="detail-group">
+            <label>Subject:</label>
+            <div id="ticketSubjectDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Request Type:</label>
+            <div id="ticketTypeDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Order Number:</label>
+            <div id="ticketOrderDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Message:</label>
+            <div id="ticketMessageDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Priority:</label>
+            <div id="ticketPriorityDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Contact Method:</label>
+            <div id="ticketContactMethodDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Contact Information:</label>
+            <div id="ticketContactInfoDetail"></div>
+          </div>
+          <div class="detail-group">
+            <label>Submitted:</label>
+            <div id="ticketDateDetail"></div>
+          </div>
+        </div>
+        <div class="ticket-responses" id="ticketResponses">
+          <h3>Responses</h3>
+          <div id="responsesList">
+            <!-- Responses will be loaded dynamically -->
+          </div>
+        </div>
+        <div class="add-response">
+          <h3>Add Response</h3>
+          <form id="responseForm">
+            <div class="form-group">
+              <textarea id="responseMessage" class="form-control" rows="4" required placeholder="Add additional information or a response to the ticket"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Submit Response</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeSuccessModal">&times;</span>
+      <div class="success-content">
+        <div class="success-icon">✓</div>
+        <h2>Thank You!</h2>
+        <p>Your support request has been submitted successfully.</p>
+        <p>Ticket ID: <span id="newTicketId"></span></p>
+        <p>Our support team will get back to you as soon as possible.</p>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="viewTicketsBtn">View My Tickets</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="support.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>
