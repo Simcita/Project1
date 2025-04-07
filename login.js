@@ -24,6 +24,7 @@ const passwordResetForm = document.getElementById('passwordResetForm');
 const closeModalBtn = document.querySelector('.close-btn');
 const signupPassword = document.getElementById('signupPassword');
 const passwordStrength = document.querySelector('.password-strength');
+const logoutButton = document.getElementById('logoutButton');
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
@@ -116,6 +117,11 @@ async function handleLogin(e) {
     }
 }
 
+async function handleLogout() {
+    await auth.signOut();
+    window.location.href = 'login.html';
+}
+
 // Handle signup
 async function handleSignup(e) {
     e.preventDefault();
@@ -134,25 +140,81 @@ async function handleSignup(e) {
         return;
     }
 
+    // Validate required fields
+    if (!email || !password || !companyName || !businessType || !contactName || !phone) {
+        showError('Please fill in all required fields');
+        return;
+    }
+
     try {
         // Create user account
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        
-        // Create user profile in Firestore
-        await db.collection('users').doc(userCredential.user.uid).set({
+        const user = userCredential.user;
+
+        // Create user profile in Firestore with additional fields
+        const userData = {
             companyName,
             businessType,
             contactName,
             email,
             phone,
             accountType: 'standard',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+            status: 'active',
+            profileCompleted: true,
+            settings: {
+                notifications: true,
+                emailUpdates: true
+            },
+            metadata: {
+                signupSource: 'web',
+                signupDate: new Date().toISOString()
+            }
+        };
+
+        // Store user data in Firestore
+        await db.collection('users').doc(user.uid).set(userData);
+
+        // Create a separate collection for user authentication logs
+        await db.collection('userLogs').doc(user.uid).collection('auth').add({
+            type: 'signup',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            ipAddress: '', // This would need to be implemented server-side
+            userAgent: navigator.userAgent
         });
 
-        // Redirect to dashboard
-        window.location.href = 'dashboard.html';
+        // Send email verification
+        await user.sendEmailVerification();
+
+        showSuccess('Account created successfully! Please check your email for verification.');
+        
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 2000);
     } catch (error) {
-        showError(error.message);
+        console.error('Signup error:', error);
+        let errorMessage = 'An error occurred during signup. ';
+        
+        switch (error.code) {
+            case 'auth/email-already-in-use':
+                errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+                break;
+            case 'auth/invalid-email':
+                errorMessage = 'Please enter a valid email address.';
+                break;
+            case 'auth/operation-not-allowed':
+                errorMessage = 'Email/password accounts are not enabled. Please contact support.';
+                break;
+            case 'auth/weak-password':
+                errorMessage = 'Please choose a stronger password.';
+                break;
+            default:
+                errorMessage += error.message;
+        }
+        
+        showError(errorMessage);
     }
 }
 
