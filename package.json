@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && mv dist docs",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "npm run build && git add docs && git commit -m 'Deploy to GitHub Pages' && git push origin main"
